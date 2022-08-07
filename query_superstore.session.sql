@@ -155,14 +155,13 @@ from orders
 where difference <= 7
 ) 
 
--- check starts here
 select * from returning_user ru
+
+-- check starts here
 right join (select distinct(customer_id) from orders) od
 on ru.customer_id = od.customer_id
 where ru.customer_id is null;
 
-
--- @BLOCK
 /* 
 list of customer_id here is the result
 of the check above
