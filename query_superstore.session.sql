@@ -38,23 +38,26 @@ order by 1
 -- find the number of customer who made their first order, in each region, for each day
 
 -- this will result with unique customer first buy and shows it's region
--- some date may be the several users' first buy for that region
+-- some date may have several users' first buy for that region
 SELECT  customer_id, 
         MIN(order_date) first_buy, 
         region
 FROM orders
-GROUP BY 1
-ORDER BY 2, 1;
+GROUP BY 1, 3 
+ORDER BY 2, 3;
 
 -- use count to get the total of users' first buy for each region on each day
-SELECT t1.first_buy, t1.region, count(t1.customer_id)
-from (
-SELECT  customer_id, 
-        MIN(order_date) first_buy, 
-        region
-FROM orders
-GROUP BY 1
-ORDER BY 2, 3) t1
+SELECT  t1.first_buy, 
+        t1.region, 
+        count(t1.customer_id) total_customer
+from    (
+        SELECT  customer_id, 
+                MIN(order_date) first_buy, 
+                region
+        FROM orders
+        GROUP BY 1, 3
+        ORDER BY 2, 3
+        ) t1
 group by first_buy, region;
 
 -- whether using distinct or not, the result would stay the same
@@ -64,49 +67,72 @@ FROM (
                 MIN(order_date) first_buy, 
                 region
         FROM orders
-        GROUP BY 1
+        GROUP BY 1, 3
         ORDER BY 2, 1
 ) t1
 GROUP BY t1.first_buy, t1.region;
 
+-- check
+select customer_id, min(order_date) first_buy, region
+from orders
+group by 1, 3
+having first_buy = '2017-01-03'
+order by 3;
+
+select customer_id, (order_date), region from orders
+where customer_id = 'SC-20380'
+order by 2;
+-- DB-13060 true 
+-- GW-14605 true
+-- HR-14770 true
+-- SC-20380 
 
 
 -- @block
--- this still has duplicate for each city each day, we need to add count
-select t2.city, t1.first_buy, t1.customer_id
-from (select     customer_id, 
-            min(order_date) first_buy 
-    from orders 
-group by 1) t1
-join customers t2 on t1.customer_id=t2.customer_id
-order by 2, 1
-;
 
--- include count
-select t2.city, t1.first_buy, count(t1.customer_id)
+select t2.city, t1.first_buy, count(t1.customer_id) total_customer
 from (select     customer_id, 
             min(order_date) first_buy 
     from orders 
 group by 1) t1
 join customers t2 on t1.customer_id=t2.customer_id
 group by t2.city, t1.first_buy
-order by 2, 1
-;
+order by 3 DESC;
 
--- check
-select t2.city, t1.order_date, t1.customer_id from orders t1
-join customers t2 on t1.customer_id=t2.customer_id
-where t2.city = 'New York City'
-and t1.order_date = '2017-03-17';
+-- check the customers' first buy whether there's indeed total of 3 in New York on 2017-03-17
+select t1.customer_id, min(order_date) first_buy, t2.city from orders t1, customers t2
+where t2.customer_id = t1.customer_id
+group by 1, 3
+having t2.city = 'New York City'
+AND first_buy = '2017-03-17';
+-- AZ-10750 true
+-- CP-12340 true
+-- MH-17440 true
 
-select customer_id, min(order_date) from orders
-group by 1;
+-- check the city
+select city, customer_id from customers
+where customer_id in ('AZ-10750', 'CP-12340', 'MH-17440'); 
 
-AZ-10750 -- true
-CP-12340 -- true
-MH-17440 -- true
+-- check another date and city
+select t1.customer_id, min(order_date) first_buy, t2.city from orders t1, customers t2
+where t2.customer_id = t1.customer_id
+group by 1, 3
+having t2.city = 'Seattle'
+AND first_buy = '2017-01-03';
 
+-- DB-13060 true
+-- GW-14605 true
+-- SC-20380 true
 
+-- check another date and city
+select t1.customer_id, min(order_date) first_buy, t2.city from orders t1, customers t2
+where t2.customer_id = t1.customer_id
+group by 1, 3
+having t2.city = 'Los Angeles'
+AND first_buy = '2017-08-04';
+
+-- PC-19000 true
+-- RA-19885 true
 
 
 
@@ -121,6 +147,20 @@ FROM (
         ORDER BY order_id) t1
 GROUP BY customer_id, order_id, sales
 ORDER BY first_buy, order_id;
+
+-- check 
+-- SC-20380 is 4
+-- CA-2017-131009 
+-- sales :129, 18, 362, 63
+
+SELECT order_date, order_id, sales
+FROM orders
+WHERE customer_id = 'SC-20380'
+AND order_date = '2017-01-03'
+ORDER BY 1, 2, 3
+
+--look on stackoverflow on how to get sales
+
 
 
 -- @block
