@@ -138,7 +138,7 @@ IGNORE 1 LINES;
 
 ## 4. Solve some questions
 To perform query, I'll use a new connection called `query_superstore.session.sql`. I'll execute and save all my queries inside this connection file.<br>
->To see the my queries, navigate to `query_superstore.session.sql`
+>To see the raw queries, navigate to `query_superstore.session.sql`
 
 <br>_Feel free to use any method to query from the database._
 <br>
@@ -349,6 +349,7 @@ WHERE customer_id IN ('AZ-10750', 'CP-12340', 'MH-17440');
 | CP-12340 | New York City |
 | MH-17440 | New York City | 
 <br>
+<hr>
 
 #### **Problem 5:**
 Find the first order GMV (sales) of each customer. If there is a tie, use order with the lower oder_id
@@ -397,10 +398,10 @@ ORDER BY 1, 2, 3
 **Result:**
 | order_date | order_id | sales | 
 |:---:|:---:|:---:|
-| 2017-01-03 | 2017-01-02 | CA-2017-140795 |
-| 2017-01-03 | 2017-01-03 | CA-2017-104269 | 
-| 2017-01-03 | 2017-01-03 | CA-2017-113880 | 
-| 2017-01-03 | 2017-01-03 | CA-2017-113880 | 
+| 2017-01-03 | CA-2017-131009 | 18.8400 |
+| 2017-01-03 | CA-2017-131009 | 63.5520 | 
+| 2017-01-03 | CA-2017-131009 | 129.5520 | 
+| 2017-01-03 | CA-2017-131009 | 362.2500 | 
 
 <hr>
 
