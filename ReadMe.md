@@ -187,7 +187,7 @@ SELECT  DISTINCT(customer_id) customer_id,
 FROM orders
 GROUP BY 1
 ORDER BY 1;
--- 1-50 of 793
+```
 
 Result
 | customer_id | first_order | row_num |
@@ -201,7 +201,6 @@ Result
 | ZC-21910 | 2017-10-13 | 792 |
 | ZD-21925 | 2017-08-27 | 793 |
 
-```
 Check by counting the total of unique customer_id:
 ```
 SELECT  COUNT(DISTINCT(customer_id)) cust_id
