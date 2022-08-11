@@ -4,20 +4,27 @@
 This project mainly based on performing queries on a MySQL database. The goal is to get used to data analysis workflow using MySQL.<br>
 <br>
 The workflow:
-1. [Acquire the dataset](#1-acquire-the-dataset)
-2. Clean the dataset 
-3. Import into MySQL
-4. Solve some questions:
-    1. Problem 1
-    2. Problem 2
-    3. Problem 3
-    4. Problem 4
-    5. Probelm 5
-    6. Problem 6
+- [SQL Project: Problem 1 to 6](#sql-project-problem-1-to-6)
+  - [Description](#description)
+  - [1. Acquire The Dataset](#1-acquire-the-dataset)
+  - [2. Clean The Dataset](#2-clean-the-dataset)
+      - [Action 1: Delete the last column in the Orders table](#action-1-delete-the-last-column-in-the-orders-table)
+      - [Action 2: Change the column names:](#action-2-change-the-column-names)
+      - [Action 3: Clean the data](#action-3-clean-the-data)
+  - [3. Import into MySQL](#3-import-into-mysql)
+      - [Action 1: Create a database and connection for the project](#action-1-create-a-database-and-connection-for-the-project)
+  - [4. Solve some questions](#4-solve-some-questions)
+      - [**Problem 1:**](#problem-1)
+      - [**Problem 2:**](#problem-2)
+      - [**Problem 3:**](#problem-3)
+      - [**Problem 4:**](#problem-4)
+      - [**Problem 5:**](#problem-5)
+      - [**Problem 6:**](#problem-6)
+- [END](#end)
 
 ## 1. Acquire The Dataset
 Dataset is provided by Wanda Kinasih (from her YT channel): [here](https://drive.google.com/drive/folders/1Dm-zQB9uIiNe6-c7y7X5q8uxY6GWTf0g)<br>
-Download the dataset from both sheets as `csv`. Actually, you can use any format but I prefer csv for this project.
+Download the dataset from both sheets as `csv`. 
 
 ## 2. Clean The Dataset
 There are some problems with this dataset that I think would affect when querying, such as:<br>
@@ -579,4 +586,10 @@ WHERE DATEDIFF(next_order, order_date) <= 7;
 <hr>
 
 # END
+
+<br>
+
+<p style="text-align:center;">
+        <a  href="#sql-project-problem-1-to-6">Back to the top</a> 
+<p>
 
