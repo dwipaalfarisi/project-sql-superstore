@@ -3,8 +3,11 @@ use wanda;
 -- task 1
 -- count the number of customer per region
 
-select count(distinct(customer_id)) total_customer, region from orders
-group by 2;
+SELECT  COUNT(DISTINCT(customer_id)) 
+        total_customer, 
+        region 
+FROM orders
+GROUP BY 2;
 
 -- @BLOCK
 -- show all column names
@@ -17,9 +20,9 @@ AND TABLE_NAME = 'orders' ;
 -- @BLOCK
 -- task 2
 -- count the number of orders per region
-select region, count(distinct(order_id))
+select count(distinct(order_id)) total_order, region
 from orders
-group by 1;
+group by 2;
 
 -- @block
 -- task 3

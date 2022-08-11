@@ -145,20 +145,7 @@ To perform query, I'll use a new connection called `query_superstore.session.sql
 <br>
 #### Problem 1:
 Count the number of customer per city
-#### Problem 2:
-Count the number of orders per region
-#### Problem 3:
-Find the first order date of each customer
-#### Problem 4:
-1. Find the number of customer who made their first order in each region, each day.
-2. Find the number of customer who made their first order in each city, each day.
-#### Problem 5:
-Find the first order GMV (sales) of each customer. If there is a tie, use order with the lower oder_id
-#### Problem 6:
-Write a query that'll identify returning active users. A returning active user is a user that has made a second order within 7 days of any other of their orders. Output a list of customer_id(s) of these returning active users.
-
-#### Query Results
-#### Problem 1
+<br>
 ```
 SELECT  COUNT(DISTINCT(customer_id)) total_customer, 
         region 
@@ -172,3 +159,69 @@ Result:
 | 674 | East |
 | 512 | South |
 | 686 | West |
+
+#### Problem 2:
+Count the number of orders per region
+<br>
+```
+SELECT  COUNT(DISTINCT(order_id)) total_order,
+        region
+FROM orders
+GROUP BY 2;
+```
+Result:
+| total_order | region |
+|:---:|:---:|
+| 1175 | Central |
+| 1401 | East |
+| 822 | South |
+| 1611 | West |
+
+#### Problem 3:
+Find the first order date of each customer
+<br>
+```
+SELECT  DISTINCT(customer_id) customer_id, 
+        MIN(order_date) first_order,
+        ROW_NUMBER() OVER(ORDER BY customer_id) row_num
+FROM orders
+GROUP BY 1
+ORDER BY 1;
+-- 1-50 of 793
+
+Result
+| customer_id | first_order | row_num |
+|:---:|:---:|:---:|
+| AA-10315 | 2017-03-31 | 1 |
+| AA-10375 | 2017-04-21 | 2 |
+| AA-10480 | 2017-04-05 | 3 |
+| AA-10645 | 2017-01-12 | 4 |
+| ... | ... | ... |
+| YS-21880 | 2018-07-25 | 791 |
+| ZC-21910 | 2017-10-13 | 792 |
+| ZD-21925 | 2017-08-27 | 793 |
+
+```
+Check by counting the total of unique customer_id:
+```
+SELECT  COUNT(DISTINCT(customer_id)) cust_id
+FROM orders
+ORDER BY 1;
+```
+
+Result
+| cust_id |
+|:---:|
+| 793 |
+
+#### Problem 4:
+1. Find the number of customer who made their first order in each region, each day.
+2. Find the number of customer who made their first order in each city, each day.
+<br>
+#### Problem 5:
+Find the first order GMV (sales) of each customer. If there is a tie, use order with the lower oder_id
+<br>
+#### Problem 6:
+Write a query that'll identify returning active users. A returning active user is a user that has made a second order within 7 days of any other of their orders. Output a list of customer_id(s) of these returning active users.
+<br>
+
