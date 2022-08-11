@@ -4,16 +4,16 @@
 This project mainly based on performing queries on a MySQL database. The goal is to get used to data analysis workflow using MySQL.<br>
 <br>
 The workflow:
-1. Acquire the dataset
-1. Clean the dataset 
-1. Import into MySQL
-1. Solve some questions:
+1. [Acquire the dataset](https://github.com/dwipaalfarisi/project-sql-superstore#1-acquire-the-dataset)
+2. Clean the dataset 
+3. Import into MySQL
+4. Solve some questions:
     1. Problem 1
-    1. Problem 2
-    1. Problem 3
-    1. Problem 4
-    1. Probelm 5
-    1. Problem 6
+    2. Problem 2
+    3. Problem 3
+    4. Problem 4
+    5. Probelm 5
+    6. Problem 6
 
 ## 1. Acquire The Dataset
 Dataset is provided by Wanda Kinasih (from her YT channel): [here](https://drive.google.com/drive/folders/1Dm-zQB9uIiNe6-c7y7X5q8uxY6GWTf0g)<br>
