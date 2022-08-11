@@ -180,25 +180,24 @@ flow:
 */
 
 -- temporary table
-with returning_user as(
-select distinct(customer_id)
-from(
+WITH returning_user AS  (
+SELECT DISTINCT(customer_id)
+FROM    (
+        SELECT  customer_id, 
+                order_date, 
+                next_order, 
+                DATEDIFF(next_order, order_date) difference
+        FROM    (
+                select  customer_id, 
+                        order_date,
+                        LEAD(order_date, 1) OVER (PARTITION BY customer_id ORDER BY order_date) next_order 
+                FROM orders
+                ) t1
+        ) t2
+WHERE difference <= 7
+        ) 
 
-select  customer_id, 
-        order_date, 
-        next_order, 
-        datediff(next_order, order_date) difference
-from(
-select  customer_id, 
-        order_date,
-        lead(order_date, 1) over (partition by customer_id order by order_date)next_order 
-from orders
-) t1
-) t2
-where difference <= 7
-) 
-
-select * from returning_user ru
+SELECT * FROM returning_user ru
 
 -- check starts here
 right join (select distinct(customer_id) from orders) od
