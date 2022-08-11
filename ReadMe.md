@@ -4,7 +4,7 @@
 This project mainly based on performing queries on a MySQL database. The goal is to get used to data analysis workflow using MySQL.<br>
 <br>
 The workflow:
-1. [Acquire the dataset](https://github.com/dwipaalfarisi/project-sql-superstore#1-acquire-the-dataset)
+1. [Acquire the dataset](#1-acquire-the-dataset)
 2. Clean the dataset 
 3. Import into MySQL
 4. Solve some questions:
