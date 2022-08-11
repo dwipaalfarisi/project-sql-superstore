@@ -217,9 +217,11 @@ Result
 1. Find the number of customer who made their first order in each region, each day.
 2. Find the number of customer who made their first order in each city, each day.
 <br>
+
 #### Problem 5:
 Find the first order GMV (sales) of each customer. If there is a tie, use order with the lower oder_id
 <br>
+
 #### Problem 6:
 Write a query that'll identify returning active users. A returning active user is a user that has made a second order within 7 days of any other of their orders. Output a list of customer_id(s) of these returning active users.
 <br>
