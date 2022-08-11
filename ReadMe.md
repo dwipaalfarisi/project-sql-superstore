@@ -156,3 +156,19 @@ Find the first order date of each customer
 Find the first order GMV (sales) of each customer. If there is a tie, use order with the lower oder_id
 #### Problem 6:
 Write a query that'll identify returning active users. A returning active user is a user that has made a second order within 7 days of any other of their orders. Output a list of customer_id(s) of these returning active users.
+
+#### Query Results
+#### Problem 1
+```
+SELECT  COUNT(DISTINCT(customer_id)) total_customer, 
+        region 
+FROM orders
+GROUP BY 2;
+```
+Result:
+| total_customer | region |
+|:---:|:---:|
+| 629 | Central |
+| 674 | East |
+| 512 | South |
+| 686 | West |
