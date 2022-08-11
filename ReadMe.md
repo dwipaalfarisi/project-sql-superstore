@@ -479,6 +479,7 @@ SELECT * FROM returning_user ru
 | AC-10420 |
 | ... |
 <br>
+
 > **Check** customers which don't appear from the previous query
 
 ```
