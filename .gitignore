@@ -1,3 +1,4 @@
-.vscode/settings.json
+.vscode/
 dataset/
 fix/
+superstore.session.sql
