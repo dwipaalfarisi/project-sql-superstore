@@ -25,6 +25,19 @@
             "name": "query_superstore",
             "database": "superstore",
             "username": "dwipa"
+        },
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "superstore",
+            "database": "superstore",
+            "username": "dwipa",
+            "password": "@velySSy0n24"
         }
     ]
 }

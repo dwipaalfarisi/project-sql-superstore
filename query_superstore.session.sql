@@ -6,7 +6,7 @@ use wanda;
 SELECT  COUNT(DISTINCT(customer_id)) 
         total_customer, 
         region 
-FROM orders
+FROM orders1
 GROUP BY 2;
 
 -- @BLOCK
@@ -15,23 +15,29 @@ SELECT COLUMN_NAME
 FROM INFORMATION_SCHEMA.COLUMNS 
 WHERE 
     TABLE_SCHEMA = Database()
-AND TABLE_NAME = 'orders' ;
+AND TABLE_NAME = 'orders1' ;
 
 -- @BLOCK
 -- task 2
 -- count the number of orders per region
 select count(distinct(order_id)) total_order, region
-from orders
+from orders1
 group by 2;
 
 -- @block
 -- task 3
 -- find the first order date of each customer
-select distinct(customer_id), min(order_date)
-from orders
-group by 1
-order by 1
-;
+SELECT  DISTINCT(customer_id) customer_id, 
+        MIN(order_date) first_order,
+        ROW_NUMBER() OVER(ORDER BY customer_id) row_num
+FROM orders1
+GROUP BY 1
+ORDER BY 1;
+
+-- check
+SELECT  COUNT(DISTINCT(customer_id)) cust_id
+FROM orders1
+ORDER BY 1;
 
 -- @block
 -- task 4
@@ -42,7 +48,7 @@ order by 1
 SELECT  customer_id, 
         MIN(order_date) first_buy, 
         region
-FROM orders
+FROM orders1
 GROUP BY 1, 3 
 ORDER BY 2, 3;
 
@@ -54,7 +60,7 @@ from    (
         SELECT  customer_id, 
                 MIN(order_date) first_buy, 
                 region
-        FROM orders
+        FROM orders1
         GROUP BY 1, 3
         ORDER BY 2, 3
         ) t1
@@ -66,7 +72,7 @@ FROM (
         SELECT  customer_id, 
                 MIN(order_date) first_buy, 
                 region
-        FROM orders
+        FROM orders1
         GROUP BY 1, 3
         ORDER BY 2, 1
 ) t1
@@ -74,12 +80,12 @@ GROUP BY t1.first_buy, t1.region;
 
 -- check
 select customer_id, min(order_date) first_buy, region
-from orders
+from orders1
 group by 1, 3
 having first_buy = '2017-01-03'
 order by 3;
 
-select customer_id, (order_date), region from orders
+select customer_id, (order_date), region from orders1
 where customer_id = 'SC-20380'
 order by 2;
 -- DB-13060 true 
@@ -93,14 +99,16 @@ order by 2;
 select t2.city, t1.first_buy, count(t1.customer_id) total_customer
 from (select     customer_id, 
             min(order_date) first_buy 
-    from orders 
+    from orders1 
 group by 1) t1
-join customers t2 on t1.customer_id=t2.customer_id
+join customers1 t2 on t1.customer_id=t2.customer_id
 group by t2.city, t1.first_buy
 order by 3 DESC;
 
+
+
 -- check the customers' first buy whether there's indeed total of 3 in New York on 2017-03-17
-select t1.customer_id, min(order_date) first_buy, t2.city from orders t1, customers t2
+select t1.customer_id, min(order_date) first_buy, t2.city from orders1 t1, customers1 t2
 where t2.customer_id = t1.customer_id
 group by 1, 3
 having t2.city = 'New York City'
@@ -110,11 +118,11 @@ AND first_buy = '2017-03-17';
 -- MH-17440 true
 
 -- check the city
-select city, customer_id from customers
+select city, customer_id from customers1
 where customer_id in ('AZ-10750', 'CP-12340', 'MH-17440'); 
 
 -- check another date and city
-select t1.customer_id, min(order_date) first_buy, t2.city from orders t1, customers t2
+select t1.customer_id, min(order_date) first_buy, t2.city from orders1 t1, customers1 t2
 where t2.customer_id = t1.customer_id
 group by 1, 3
 having t2.city = 'Seattle'
@@ -125,7 +133,7 @@ AND first_buy = '2017-01-03';
 -- SC-20380 true
 
 -- check another date and city
-select t1.customer_id, min(order_date) first_buy, t2.city from orders t1, customers t2
+select t1.customer_id, min(order_date) first_buy, t2.city from orders1 t1, customers1 t2
 where t2.customer_id = t1.customer_id
 group by 1, 3
 having t2.city = 'Los Angeles'
@@ -143,7 +151,7 @@ AND first_buy = '2017-08-04';
 SELECT customer_id, min(order_date) first_buy, order_id, sales
 FROM (
         SELECT customer_id, order_date, order_id, sales
-        FROM orders
+        FROM orders1
         ORDER BY order_id) t1
 GROUP BY customer_id, order_id, sales
 ORDER BY first_buy, order_id;
@@ -154,7 +162,7 @@ ORDER BY first_buy, order_id;
 -- sales :129, 18, 362, 63
 
 SELECT order_date, order_id, sales
-FROM orders
+FROM orders1
 WHERE customer_id = 'SC-20380'
 AND order_date = '2017-01-03'
 ORDER BY 1, 2, 3
@@ -191,7 +199,7 @@ FROM    (
                 select  customer_id, 
                         order_date,
                         LEAD(order_date, 1) OVER (PARTITION BY customer_id ORDER BY order_date) next_order 
-                FROM orders
+                FROM orders1
                 ) t1
         ) t2
 WHERE difference <= 7
@@ -200,7 +208,7 @@ WHERE difference <= 7
 SELECT * FROM returning_user ru
 
 -- check starts here
-right join (select distinct(customer_id) from orders) od
+right join (select distinct(customer_id) from orders1) od
 on ru.customer_id = od.customer_id
 where ru.customer_id is null;
 
@@ -222,7 +230,7 @@ from    (
         select  customer_id, 
                 order_date,
                 lead(order_date, 1) over (partition by customer_id order by order_date)next_order 
-        from orders
+        from orders1
         where customer_id in    (
                                 'AO-10810',
                                 'BE-11410',
@@ -247,6 +255,7 @@ from    (
                                 'TB-21190',
                                 'TS-21085',
                                 'TT-21265'
+
                                 )
         ) t1
 where datediff(next_order, order_date) <= 7;

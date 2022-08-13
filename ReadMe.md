@@ -54,11 +54,11 @@ If you notice, date format in `order_date` and `ship_date` in the Orders table a
 There are two types: `DD/MM/YYYY`and `MM/D/YYYY`. <br>
 I use Excel to match SQL default date format (`YYYY-MM-DD`).<br>
 
-1. Select the `order_date` column rows and perform `Sort A to Z` -> `Continue with current selection`
-2. You will find the date data are split into two categories: fixed to the left and fixed to the right. Select all data fixed to the left since this is not a date format.
+1. Select all column rows and perform `Custom Sort` -> `Sort by: order_date`-> `Ok`
+2. You will find the date data are split into two categories: fixed to the left and fixed to the right. Select all data since this is not a date format.
 3. Go to menu `Data` --> `Text to Columns` --> choose `Delimeted`, then `Next` --> untick all Delimiters, then `Next` --> choose `Date` and `MDY`--> `Finish`
 4. Do the same thing for  `ship_date`
-5. Select both columns' rows (values) --> `format cells` --> `custom` --> for the Type: use `YYYY-MM-DD` --> `Ok`
+5. Select all rows --> `format cells` --> `custom` --> for the Type: use `YYYY-MM-DD` --> `Ok`
 6. You will see the two columns' values are now set to `YYYY-MM-DD` format.
 
 ## 3. Import into MySQL
@@ -206,7 +206,7 @@ ORDER BY 1;
 | customer_id | first_order | row_num |
 |:---:|:---:|:---:|
 | AA-10315 | 2017-03-31 | 1 |
-| AA-10375 | 2017-04-21 | 2 |
+| AA-10375 | 2018-04-21 | 2 |
 | AA-10480 | 2017-04-05 | 3 |
 | AA-10645 | 2017-01-12 | 4 |
 | ... | ... | ... |
@@ -443,7 +443,7 @@ FROM orders
 | AA-10315 | 2019-03-03 | 2020-06-29 | 484 |
 | AA-10315 | 2020-06-29 | 2020-06-29 | 0 |
 | AA-10315 | 2020-06-29 | NULL | NULL |
-| AA-10375 | 2017-04-21 | 2017-10-24 | 184 |
+| AA-10375 | 2017-04-21 | 2017-10-24 | 186 |
 | ... | ... | ... | ... |
 <br>
 
@@ -519,6 +519,15 @@ WHERE ru.customer_id IS NULL;
 **Result:**
 | ru.customer_id | od.customer_id |
 |---|---|
+| NULL | AO-10810 |
+| NULL | BE-11410 |
+| NULL | BO-11425 |
+| NULL | BW-11065 |
+| NULL | CJ-11875 |
+| NULL | EK-13795 |
+| NULL | EL-13735 |
+| NULL | FW-14395 |
+| NULL | JC-15340 |
 | NULL | JR-15700 |
 | NULL | LB-16735 |
 | NULL | LD-16855 |
