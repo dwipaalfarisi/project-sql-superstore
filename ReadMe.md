@@ -153,7 +153,7 @@ To perform query, I'll use a new connection called `query_superstore.session.sql
 <hr>
 
 #### **Problem 1:**
-Count the number of customer per city
+Count the number of customer per region
 <br>
 ```
 SELECT  COUNT(DISTINCT(customer_id)) total_customer, 
