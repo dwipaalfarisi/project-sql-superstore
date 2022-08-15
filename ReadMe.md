@@ -233,7 +233,7 @@ ORDER BY 1;
 <hr>
 
 #### **Problem 4:**
-1. Find the number of customer who made their first order in each region, each day.
+1. (4.1) Find the number of customer who made their first order in each region, each day.
 ```
 SELECT  t1.first_buy, 
         t1.region, 
@@ -285,7 +285,7 @@ ORDER BY 3;
 | DB-13060 | 2017-01-03 | West |
 <br>
 
-2. Find the number of customer who made their first order in each city, each day, order by the most customer.
+2. (4.2) Find the number of customer who made their first order in each city, each day, order by the most customer.
 <br>
 
 ```
@@ -356,6 +356,13 @@ WHERE customer_id IN ('AZ-10750', 'CP-12340', 'MH-17440');
 | CP-12340 | New York City |
 | MH-17440 | New York City | 
 <br>
+
+>**Note**: This particular query can differ depends on what database is used to query. The caveat of this query is down to the table `customers` which doesn't have connector column `order_id` as in `orders` column. This means if the one customer have several cities, it can't deter which city belongs to which order. This causes confusion. 
+- In MySQL, as the result above suggested, we would get the city from `JM-15655` customer, as only one city: `Bridgeton`. But if we take a look at `customers` table, customer `JM-15655` actually has several values for `city` column such as: `Los Angeles`, `Carlsbad`, or `Glendale`.
+- In BigQuery, it will return several city, not one.
+<br>
+
+Considering the following caveat, ***this query (problem 4.2) is not valid***.
 <hr>
 
 #### **Problem 5:**
